@@ -21,6 +21,7 @@ class CloudManage
     private $upfileinfo = "/upfileinfo";
     private $lageupload = "/largeupload";
 	public $result;
+	private $customize;
     public function __construct(string $server,string $appid,string $accessKey,string $secretKey)
     {
         $this->server = $server;
@@ -59,6 +60,10 @@ class CloudManage
         }
         return $this;
     }
+	public function customize($customize) : CloudManage
+	{
+		$this->customize = $customize;
+	}	
     public function upload($realpath = "",$filename = "")
     {
         try{
@@ -69,13 +74,13 @@ class CloudManage
             }
             $filename = strlen($filename) ? $filename : basename($realpath);
             $this->cloudAuth = new CloudAuth($this->appid,
-                $this->accessKey,$this->secretKey);
+                $this->accessKey,$this->secretKey,$this->customize);
             $this->uploadToken = $this->cloudAuth->uploadToken();
             $cloudUpload = new CloudUpload($this,$realpath,$filename);
             $this->result = $cloudUpload->fileCheck()->upload();
         } catch(Exception $e) {
+            $this->err = $e;
         } catch(CloudException $e) {
-            //var_dump($e);
             $this->err = $e;
         }
         $this->doCallBack();
