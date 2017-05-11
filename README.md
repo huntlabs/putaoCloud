@@ -2,4 +2,4 @@ putao cloud sdk for php
 
 # putaoCloud
 
-examples in PutaoCloud/tests/CloudManageTest.php
+[examples](https://github.com/huntlabs/putaoCloud/blob/master/PutaoCloud/tests/CloudManageTest.php)
